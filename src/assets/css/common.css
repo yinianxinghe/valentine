@@ -1,9 +1,9 @@
 .btn {
-  width: 5vw;
-  height: 5vh;
-  line-height: 5vh;
+  height: 21px;
+  line-height: 21px;
+  padding: 2px 5px;
   border: 1px solid #dcdfe6;
-  border-radius: 2.5vh;
+  border-radius: 8px;
 }
 .btn-green {
   color: #fff;

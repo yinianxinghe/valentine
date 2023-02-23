@@ -29,11 +29,11 @@ export default {
     },
     dialogWidth: {
       type: String,
-      default: '30'
+      default: '6.66'
     },
     dialogHeight: {
       type: String,
-      default: '50'
+      default: '8'
     },
     showBtn: {
       type:Boolean,
@@ -46,8 +46,8 @@ export default {
   computed: {
     setStyle() {
       return {
-        width: this.dialogWidth + 'vw',
-        height: this.dialogHeight + 'vh'
+        width: this.dialogWidth + 'rem',
+        height: this.dialogHeight + 'rem'
       }
     }
   },
@@ -69,6 +69,7 @@ export default {
   z-index: 2007;
   margin: 0;
   text-align: justify;
+  background: rgba(0, 0, 0, 0.4);
 }
 
 .dialog {
@@ -83,16 +84,16 @@ export default {
 }
 .header {
   width: 100%;
-  font-size: 1.2vw;
-  line-height: 1.5vw;
+  font-size: 12px;
+  line-height: 20px;
 }
 .title {
   float: left;
 }
 .close {
   float: right;
-  width: 1vw;
-  height: 1vw;
+  width: 12px;
+  height: 12px;
   background: url(../assets/img/close.svg) no-repeat;
   background-size: cover;
 }
@@ -106,17 +107,20 @@ export default {
 }
 .content {
   width: 100%;
-  font-size: 1.2vw;
+  font-size: 12px;
   margin-top: 20px;
 }
 .footer {
   position: absolute;
   bottom: 0;
+  left: 0;
   width: 100%;
   display: flex;
   justify-content: space-around;
   align-items: center;
   margin-bottom: 30px;
   text-align: center;
+  font-size: 11px;
+  line-height: 30px;
 }
 </style>

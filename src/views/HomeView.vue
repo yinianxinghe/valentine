@@ -9,13 +9,19 @@
         <span>在接下来的日子里，我希望我的身边能够有你的身影，也希望你的身边有我，可以继续相互分享喜怒哀乐。</span>
         <span>所以我想让你做我的女朋友，成为我的宝，你愿意吗？宝</span>
       </div>
-      <div v-if="showBtn" class="btns">
-        <div class="btn btn-green" @click="handleClick(0)">答应他</div>
-        <div class="btn btn-blue" @click="handleClick(1)">再等等</div>
-        <div class="btn btn-grey" @click="handleClick(2)">算了</div>
+      <div class="foot">
+        <div class="time">
+          <div class="timeTitle">亲爱的彦霏，我们已经相遇了</div>
+          <div>{{ time }}</div>
+        </div>
+        <div v-if="showBtn" class="btns">
+          <div class="btn btn-green" @click="handleClick(0)">答应他</div>
+          <div class="btn btn-blue" @click="handleClick(1)">再等等</div>
+          <div class="btn btn-grey" @click="handleClick(2)">算了</div>
+        </div>
       </div>
     </div>
-    <Dialog :is-show-dialog="waitDialog" :show-btn="waitBtn" @close="val=> waitDialog = val">
+    <Dialog :is-show-dialog="waitDialog" :show-btn="waitBtn" @close="val => waitDialog = val">
       <template v-slot:content>
         <div>{{ waitContent }}</div>
       </template>
@@ -24,7 +30,7 @@
         <div class="btn btn-blue" @click="handleClickWait(1)">再等等</div>
       </template>
     </Dialog>
-    <Dialog :is-show-dialog="errorDialog" :show-btn="errorBtn" dialog-title="给个机会吧" @close="val=>errorDialog = val">
+    <Dialog :is-show-dialog="errorDialog" :show-btn="errorBtn" dialog-title="给个机会吧" @close="val => errorDialog = val">
       <template v-slot:content>
         <div>{{ errorContent }}</div>
       </template>
@@ -33,10 +39,13 @@
         <div class="btn btn-grey" @click="handleClickError(1)">算了</div>
       </template>
     </Dialog>
-  </div>
+</div>
 </template>
 
 <script>
+
+
+
 import { createHeart } from "../script/heart"
 import Dialog from '../components/dialog.vue'
 export default {
@@ -46,6 +55,8 @@ export default {
   },
   data() {
     return {
+      firstTime: '2023/01/25',
+      time: '',
       canvasRef: '',
       ctx: '',
       ww: '',
@@ -55,6 +66,7 @@ export default {
       content: '2023年1月25日，浓烈的春节气氛下我们相遇。从我第一次遇见你，我就觉得你是我命中注定的唯一。在我们相处的这段日子里，从一开始互相有所顾虑以致我差点错过你，到后面我们第一次一起出去游玩，再到后面与你一起度过第一个情人节，到如今无话不谈。在接下来的日子里，我希望我的身边能够有你的身影，也希望你的身边有我，可以继续相互分享喜怒哀乐。所以我想让你做我的女朋友，成为我的宝，你愿意吗？宝',
       progress: 0,
       interValId: null,
+      interValId2: null,
       showBtn: false,
       waitDialog: false,
       errorDialog: false,
@@ -82,6 +94,7 @@ export default {
     this.heartImage.onload = this.init();
     this.heartImage.src = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0NzMuOHB4IiBoZWlnaHQ9IjQwOC42cHgiIHZpZXdCb3g9IjAgMCA0NzMuOCA0MDguNiI+PHBhdGggZmlsbD0iI2QzMjkzMiIgZD0iTTQwNC42LDE2LjZDMzg1LjQsNi4xLDM2My41LDAsMzQwLDBjLTQxLjUsMC03OC41LDE4LjktMTAzLDQ4LjVDMjEyLjMsMTguOSwxNzUuMywwLDEzMy44LDAgYy0yMy4zLDAtNDUuMyw2LjEtNjQuNSwxNi42QzI3LjksMzkuNSwwLDgzLjQsMCwxMzMuOWMwLDE0LjQsMi40LDI4LjMsNi42LDQxLjJDMjkuNiwyNzguNCwyMzcsNDA4LjYsMjM3LDQwOC42IHMyMDcuMi0xMzAuMiwyMzAuMi0yMzMuNWM0LjMtMTIuOSw2LjYtMjYuOCw2LjYtNDEuMkM0NzMuOCw4My40LDQ0NS45LDM5LjYsNDA0LjYsMTYuNnoiLz48L3N2Zz4=";
     this.setcontent()
+    this.dataRefreh()
   },
   methods: {
     init() {
@@ -119,6 +132,30 @@ export default {
         }
       }, 75);
     },
+    setTime() {
+      let time = (Date.now() - Date.parse(this.firstTime)) / 1000
+      let days = parseInt(time / 86400) //天
+      let hours = parseInt(time / 3600) - 24 * days//小时
+      let minutes = parseInt(time % 3600 / 60)//分钟
+      let seconds = parseInt(time % 60) //秒
+      this.time = days + '天' + hours + '小时' + minutes + '分钟' + seconds + '秒'
+    },
+    // 定时刷新数据函数
+    dataRefreh() {
+      // 计时器正在进行中，退出函数
+      if (this.intervalId2 != null) {
+        return;
+      }
+      // 计时器为空，操作
+      this.intervalId2 = setInterval(() => {
+        this.setTime(); //加载数据函数
+      }, 1000);
+    },
+    // 停止定时器
+    clear() {
+      clearInterval(this.intervalId2); //清除计时器
+      this.intervalId2 = null; //设置为null
+    },
     //点击事件
     handleClick(val) {
       this.waitIndex = 0
@@ -127,12 +164,12 @@ export default {
         this.$router.push('/success')
       } else if (val == 1) {
         this.waitDialog = true
-        this.waitIndex ++
+        this.waitIndex++
       } else if (val == 2) {
         this.errorDialog = true
         this.errorIndex++
       }
-    }, 
+    },
     handleClickWait(val) {
       if (val == 0) {
         this.waitDialog = false
@@ -140,16 +177,16 @@ export default {
           this.$router.push('/success')
         })
       } else {
-        if(this.waitIndex < 2) {
-        this.waitContent = '别等等了，再等花都谢了'
-        this.waitIndex ++
-      } else {
-        this.waitContent = '我会继续等你，等你的回复'
-        this.waitBtn = false
-        setTimeout(() => {
-          this.waitDialog = false
-        }, 1000*5);
-      }
+        if (this.waitIndex < 2) {
+          this.waitContent = '别等等了，再等花都谢了'
+          this.waitIndex++
+        } else {
+          this.waitContent = '我会继续等你，等你的回复'
+          this.waitBtn = false
+          setTimeout(() => {
+            this.waitDialog = false
+          }, 1000 * 5);
+        }
       }
     },
     handleClickError(val) {
@@ -160,21 +197,25 @@ export default {
           this.$router.push('/success')
         })
       } else {
-        if(this.errorIndex == 1) {
-        this.errorContent = '有什么问题请直接对我说，不要这么急着拒绝啊'
-        this.errorIndex ++
-      }else if(this.errorIndex == 2){
-        this.errorContent = '请慎重考虑啊'
-        this.errorIndex++
-      } else {
-        this.errorContent = '对不起，没能和你在一起，祝你能找到更好的另一半，也希望我们还是朋友'
-        this.errorBtn = false
-        setTimeout(() => {
-          this.errorDialog = false
-        }, 1000*5);
-      }
+        if (this.errorIndex == 1) {
+          this.errorContent = '有什么问题请直接对我说，不要这么急着拒绝啊'
+          this.errorIndex++
+        } else if (this.errorIndex == 2) {
+          this.errorContent = '请慎重考虑啊'
+          this.errorIndex++
+        } else {
+          this.errorContent = '对不起，没能和你在一起，祝你能找到更好的另一半，也希望我们还是朋友'
+          this.errorBtn = false
+          setTimeout(() => {
+            this.errorDialog = false
+          }, 1000 * 5);
+        }
       }
     }
+  },
+  destroyed() {
+    // 在页面销毁后，清除计时器
+    this.clear();
   }
 }
 </script>
@@ -184,31 +225,46 @@ export default {
 }
 
 .container {
-  width: 30vw;
-  height: 50vh;
+  width: 220px;
+  height: 380px;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  padding: 5px;
 }
 
 .content {
   color: #000;
-  font-size: 1.2vw;
-  line-height: 2.4vw;
+  font-size: 12px;
+  line-height: 20px;
   text-align: justify;
-  text-indent: 2.4vw;
+  text-indent: 24px;
 }
 
-.btns {
+.foot {
   position: absolute;
   bottom: 0;
   width: 100%;
-  height: 6vh;
+}
+
+.time {
+  font-size: 20px;
+  line-height: 25px;
+  font-weight: 600;
+}
+.timeTitle {
+  font-size: 14px;
+  line-height: 20px;
+  color:#67c23a;
+}
+.btns {
+  width: 100%;
+  height: 30px;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  font-size: 1.1vw;
-  line-height: 5vh;
+  font-size: 11px;
+  line-height: 30px;
 }
 </style>
