@@ -39,6 +39,9 @@
         <div class="btn btn-grey" @click="handleClickError(1)">算了</div>
       </template>
     </Dialog>
+    <!-- <div class="content">
+      往后余生，惟愿是你。余生还很漫长，我愿和你一起走下去。
+    </div> -->
 </div>
 </template>
 
