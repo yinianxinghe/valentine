@@ -17,17 +17,18 @@
         <div v-if="showBtn" class="btns">
           <div class="btn btn-green" @click="handleClick(0)">答应他</div>
           <div class="btn btn-blue" @click="handleClick(1)">再等等</div>
-          <div class="btn btn-grey" @click="handleClick(2)">算了</div>
+          <!-- <div class="btn btn-grey" @click="handleClick(2)">算了</div> -->
         </div>
       </div>
     </div>
-    <Dialog :is-show-dialog="waitDialog" :show-btn="waitBtn" @close="val => waitDialog = val">
+    <Dialog :is-show-dialog="waitDialog" :show-btn="waitBtn">
       <template v-slot:content>
         <div>{{ waitContent }}</div>
+        <img :src="imgUrl" alt="">
       </template>
       <template v-slot:footer>
         <div class="btn btn-green" @click="handleClickWait(0)">答应他</div>
-        <div class="btn btn-blue" @click="handleClickWait(1)">再等等</div>
+        <div v-if="isShow" class="btn btn-blue" @click="handleClickWait(1)">再等等</div>
       </template>
     </Dialog>
     <Dialog :is-show-dialog="errorDialog" :show-btn="errorBtn" dialog-title="给个机会吧" @close="val => errorDialog = val">
@@ -39,18 +40,14 @@
         <div class="btn btn-grey" @click="handleClickError(1)">算了</div>
       </template>
     </Dialog>
-    <!-- <div class="content">
-      往后余生，惟愿是你。余生还很漫长，我愿和你一起走下去。
-    </div> -->
 </div>
 </template>
 
 <script>
-
-
-
 import { createHeart } from "../script/heart"
 import Dialog from '../components/dialog.vue'
+import qql from '../assets/img/qql.jpg'
+import love from '../assets/img/love.gif'
 export default {
   name: 'HomeView',
   components: {
@@ -80,7 +77,9 @@ export default {
       errorContent: '别啊，我觉得我们可以',
       errorIndex: 0,
       errorImage: '',
-      errorBtn: true
+      errorBtn: true,
+      imgUrl: qql,
+      isShow: true
     }
   },
   created() {
@@ -180,20 +179,31 @@ export default {
           this.$router.push('/success')
         })
       } else {
-        if (this.waitIndex < 2) {
-          this.waitContent = '别等等了，再等花都谢了'
+        if (this.waitIndex == 1) {
+          this.waitContent = '明人不说暗话，我是真心喜欢你，我会给你我能给的所有，请答应我吧！'
+          this.imgUrl = love
           this.waitIndex++
-        } else {
-          this.waitContent = '我会继续等你，等你的回复'
-          this.waitBtn = false
-          setTimeout(() => {
-            this.waitDialog = false
-          }, 1000 * 5);
+        } else if(this.waitIndex == 2) {
+          this.waitContent = '以后饭我来做'
+          this.waitIndex++
+        }  else if(this.waitIndex == 3) {
+          this.waitContent = '衣服碗筷我来洗'
+          this.waitIndex++
+        }  else if(this.waitIndex == 4) {
+          this.waitContent = '爱你，么么哒!'
+          this.waitIndex++
+          this.isShow = false
         }
+        //  else {
+        //   this.waitContent = '我会继续等你，等你的回复'
+        //   this.waitBtn = false
+        //   setTimeout(() => {
+        //     this.waitDialog = false
+        //   }, 1000 * 5);
+        // }
       }
     },
     handleClickError(val) {
-      debugger
       if (val == 0) {
         this.waitDialog = false
         this.$nextTick(() => {
@@ -269,5 +279,9 @@ export default {
   align-items: center;
   font-size: 11px;
   line-height: 30px;
+}
+img {
+  width: 5rem;
+  height: 5rem;
 }
 </style>

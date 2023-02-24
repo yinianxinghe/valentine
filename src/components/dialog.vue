@@ -3,7 +3,7 @@
     <div class="dialog" :style="setStyle">
       <div class="header">
         <div class="title">{{ dialogTitle }}</div>
-        <div class="close" @click="close"></div>
+        <!-- <div class="close" @click="close"></div> -->
       </div>
       <div class="content">
         <slot name="content"></slot>
@@ -108,6 +108,8 @@ export default {
 .content {
   width: 100%;
   font-size: 12px;
+  font-weight: 600;
+  text-align: center;
   margin-top: 20px;
 }
 .footer {

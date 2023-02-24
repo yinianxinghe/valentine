@@ -2,6 +2,9 @@
   <div class="success">
     <canvas id='fireworks' ref="fireworks">浏览器不支持canvas</canvas>
     <div id="starsBox" ref="starsBox"></div>
+    <div class="content">
+      往后余生，惟愿是你。余生还很漫长，我愿和你一起走下去。
+    </div>
   </div>
 </template>
 <script>
@@ -15,15 +18,8 @@ export default {
       starts: 250,
       domData: '',
       interValId: null,
-      SCREEN_WIDTH: '',
-      SCREEN_HEIGHT: '',
-      mousePos: {},
       canvas: '',
-      context: '',
-      particles: [],
-      rockets: [],
-      MAX_PARTICLES: 200,
-      colorCode: 0
+      context: ''
     }
   },
   mounted() {
@@ -94,14 +90,27 @@ export default {
   left: 0;
   right: 0;
   bottom: 0;
-  background: #000;
-  z-index: 0;
+  /* background: #000; */
+  z-index: 2
 }
 
+@keyframes content {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+}
 .content {
   position: absolute;
   top: 50%;
   margin: 0 auto;
   color: #ffffff;
+  animation: content 10s 1;
+}
+#fireworks {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
 }
 </style>
