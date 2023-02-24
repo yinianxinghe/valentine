@@ -215,7 +215,6 @@ Rocket.prototype.explode = function () {
 
     // emulate 3D effect by using cosine and put more particles in the middle
     var speed = Math.cos((Math.random() * Math.PI) / 2) * 15;
-debugger
     particle.vel.x = Math.cos(angle) * speed;
     particle.vel.y = Math.sin(angle) * speed;
 
