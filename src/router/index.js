@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import index from '../views/index.vue'
 import HomeView from '../views/HomeView.vue'
 
 Vue.use(VueRouter)
@@ -7,7 +8,12 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'home',
+    name: 'index',
+    component: index
+  },
+  {
+    path: '/homeView',
+    name: 'homeView',
     component: HomeView
   },
   {

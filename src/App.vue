@@ -1,23 +1,18 @@
 <template>
   <div id="app">
     <router-view />
-    <audio src="./assets/告白气球.flac" loop='true' autoplay="autoplay" ref="MusicPlay" muted hidden></audio>
+    <audio src="./assets/告白气球.mp3" loop='true' autoplay="autoplay" ref="MusicPlay" muted hidden></audio>
   </div>
 </template>
 <script>
 export default {
   data() {
-    return {}
+    return {
+    }
   },
   mounted() {
-    setTimeout(()=> {
-      this.cyinpin()
-    },1000)
   },
   methods: {
-    cyinpin() {
-        this.$refs.MusicPlay.play()
-    }
   }
 }
 </script>
